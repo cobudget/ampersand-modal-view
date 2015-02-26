@@ -14,7 +14,9 @@
 
 var AmpView = require('ampersand-view');
 
-var view = require('./index.html');
+var template = require('./index.html');
+var viewBinding = require('./lib/view-binding');
+var viewDataType = require('./lib/view-data-type');
 
 module.exports = AmpView.extend({
   // Customization options.
@@ -22,7 +24,8 @@ module.exports = AmpView.extend({
     title: 'string',
     description: 'string',
     closeText: ['string', false, 'Close'],
-    contentView: 'view'
+    bodyView: 'view',
+    //footerView: 'view',
   },
 
   // Bind our properties to the element.
@@ -30,48 +33,17 @@ module.exports = AmpView.extend({
     title: '[data-hook="title"]',
     description: '[data-hook="description"]',
     closeText: '[data-hook="close-text"]',
-    contentView: {
-      type: function (el, val, previousVal) {
-        if (previousVal) { previousVal.remove(); }
-        this.registerSubview(val);
-        var content = this.queryByHook('content');
-        if (!val.el) {
-          val.render();
-        }
-        content.appendChild(val.el);
-      },
-      hook: 'content',
-    },
+    bodyView: viewBinding('body'),
+    //footerView: viewBinding('footer'),
   },
 
   // Declare `view` a custom data type.
   dataTypes: {
-    view: {
-      set: function setViewType(nv) {
-        var f = 'function';
-        // Consider it a view if it follows the view conventions of Ampersand.
-        if (typeof nv.render === f && typeof nv.remove === f && nv.el) {
-          return {
-            val: nv,
-            type: 'view',
-          };
-        }
-        else {
-          return {
-            val: nv,
-            type: typeof nv,
-          };
-        }
-      },
-
-      compare: function compareViewType(a, b) {
-        return a === b;
-      },
-    },
+    view: viewDataType,
   },
 
   // Return our template
-  template: view,
+  template: template,
 
   // Render the modal
   render: function renderModal() {
@@ -249,7 +221,7 @@ module.exports = AmpView.extend({
     var focusInModal = this.el.contains(event.target);
     if (!focusInModal) {
       event.stopPropagation();
-      var bd = this.query('.modal-body');
+      var bd = this.query('.modal-content');
       bd.focus();
     }
   },

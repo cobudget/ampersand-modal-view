@@ -11,23 +11,23 @@ test("should require module", function (t) {
 });
 
 test("should open simple modal in body", function (t) {
-  var ContentView = View.extend({
+  var BodyView = View.extend({
     autoRender: true,
     template: [
-      '<div class="content-view-test">',
+      '<div class="body-view-test">',
         'content',
       '</div>',
     ].join(''),
   });
-  var contentView = new ContentView();
+  var bodyView = new BodyView();
   var modal = new ModalView({
     title: "Test Modal",
     description: "this is only a test",
-    contentView: contentView,
+    bodyView: bodyView,
   });
   modal.openIn('body');
 
-  t.equal(modal.el, select('body > .modal-overlay'));
-  t.equal(contentView.el, select('[data-hook="content"] > .content-view-test'))
+  t.equal(modal.el, select('body > .modal'));
+  t.equal(bodyView.el, select('[data-hook="body"] > .body-view-test'))
   t.end();
 });
