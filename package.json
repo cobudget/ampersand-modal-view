@@ -16,8 +16,21 @@
   ],
   "author": "Simon Ljungberg <hi@iamsim.me> (http://iamsim.me/)",
   "license": "MIT",
+  "browserify": {
+    "transform": [
+      [
+        "txtify2",
+        {
+          "extensions": [
+            "html"
+          ]
+        }
+      ]
+    ]
+  },
   "dependencies": {
-    "ampersand-view": "^7.2.0"
+    "ampersand-view": "^7.2.0",
+    "txtify2": "^2.0.0"
   },
   "devDependencies": {
     "run-browser": "^2.0.2",
