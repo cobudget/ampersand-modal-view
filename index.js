@@ -25,7 +25,7 @@ module.exports = AmpView.extend({
     description: 'string',
     closeText: ['string', false, 'Close'],
     bodyView: 'view',
-    //footerView: 'view',
+    footerView: 'view',
   },
 
   // Bind our properties to the element.
@@ -34,7 +34,7 @@ module.exports = AmpView.extend({
     description: '[data-hook="description"]',
     closeText: '[data-hook="close-text"]',
     bodyView: viewBinding('body'),
-    //footerView: viewBinding('footer'),
+    footerView: viewBinding('footer'),
   },
 
   // Declare `view` a custom data type.
