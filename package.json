@@ -33,6 +33,8 @@
     "txtify2": "^2.0.0"
   },
   "devDependencies": {
+    "ampersand-view": "^7.2.0",
+    "dom-select": "0.0.0",
     "run-browser": "^2.0.2",
     "tape": "^3.5.0"
   }
