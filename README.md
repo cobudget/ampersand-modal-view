@@ -1,6 +1,6 @@
 # ampersand-modal-view
 
-A modal popup view for Ampersand.js.
+A modal popup view for Ampersand.js that works with Bootstrap.
 
 ## Install
 
@@ -33,8 +33,8 @@ Creates a new modal view.
 * `title`, the title of the modal. Set in a `h1`. Used as the aria label.
 * `description`, sets a description for screenreaders. Used as the aria description
 * `close`, allows you to change the screenreader label for the close button.
-* `contentView`, any object following the Ampersand view conventions. The content
-of the modal.
+* `bodyView`, any object following the Ampersand view conventions. The body of the modal.
+* `footerView`, any object following the Ampersand view conventions. The footer of the modal.
 
 ### open in `modalView.openIn(container)`
 
