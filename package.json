@@ -4,7 +4,9 @@
   "description": "Modal view for Ampersand.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "phantom": "run-browser test.js -b",
+    "browser": "run-browser test.js",
+    "test": "npm run phantom"
   },
   "keywords": [
     "ampersand",
@@ -15,5 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "ampersand-view": "^7.2.0"
+  },
+  "devDependencies": {
+    "run-browser": "^2.0.2",
+    "tape": "^3.5.0"
   }
 }
