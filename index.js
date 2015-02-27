@@ -182,7 +182,7 @@ module.exports = AmpView.extend({
 
     this.restore();
     this.trigger('close');
-    this.remove();
+    this.animateRemove();
   },
 
   //
@@ -212,7 +212,7 @@ module.exports = AmpView.extend({
 
     this.restore();
     this.trigger('cancel');
-    this.remove();
+    this.animateRemove();
   },
 
   //
@@ -266,14 +266,13 @@ module.exports = AmpView.extend({
     }
   },
 
-  remove: function () {
+  animateRemove: function () {
 
     // Fade modal out
     this.fade = false;
 
     setTimeout(function () {
-      // Then remove
-      AmpView.prototype.remove.apply(this, arguments);
+      this.remove();
     }.bind(this), 500)
   },
 });
