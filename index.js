@@ -68,11 +68,6 @@ module.exports = AmpView.extend({
   // Return our template
   template: template,
 
-  // Render the modal
-  render: function renderModal() {
-    this.renderWithTemplate();
-  },
-
   // More "temporary" properties separted to the session compartment.
   session: {
     lastFocus: 'element',
