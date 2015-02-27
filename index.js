@@ -89,6 +89,7 @@ module.exports = AmpView.extend({
 
   initialize: function () {
     // Need to listen to entire doc, not just in modal.
+    // TODO need to remove listener on remove
     document.addEventListener('keydown', this.escape.bind(this));
   },
 
@@ -109,9 +110,11 @@ module.exports = AmpView.extend({
   //
   openIn: function openModal(container, animate, context) {
 
-    // Re-bind bindings
+    // HACK re-bind bindings and 
     this._parsedBindings = bindings(this.bindings, this);
     this._initializeBindings();
+
+    // TODO figure out how to rebind children
 
     if (typeof container === 'string') {
       container = document.querySelector(container);
