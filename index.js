@@ -13,8 +13,9 @@
 'use strict';
 
 var AmpView = require('ampersand-view');
+var dom = require('ampersand-dom');
 
-var template = require('./index.html');
+var template = require('./template.html');
 var viewBinding = require('./lib/view-binding');
 var viewDataType = require('./lib/view-data-type');
 
@@ -24,6 +25,7 @@ module.exports = AmpView.extend({
     title: 'string',
     description: 'string',
     closeText: ['string', false, 'Close'],
+    size: 'string',
     bodyView: 'view',
     footerView: 'view',
   },
@@ -33,6 +35,27 @@ module.exports = AmpView.extend({
     title: '[data-hook="title"]',
     description: '[data-hook="description"]',
     closeText: '[data-hook="close-text"]',
+    size: {
+      type: function (el, newVal, oldVal) {
+        var valToClass = {
+          sm: "modal-sm",
+          lg: "modal-lg",
+        };
+        var oldClass = valToClass[oldVal];
+        var newClass = valToClass[newVal];
+        dom.switchClass(el, oldClass, newClass);
+      },
+      hook: "dialog",
+    },
+    fade: [{
+      type: 'booleanClass',
+      hook: 'overlay',
+      name: 'in',
+    }, {
+      type: 'booleanClass',
+      hook: 'backdrop',
+      name: 'in',
+    }],
     bodyView: viewBinding('body'),
     footerView: viewBinding('footer'),
   },
@@ -56,11 +79,13 @@ module.exports = AmpView.extend({
     hiddenElements: 'array',
     containerOverflow: 'string',
     containerHeight: 'string',
+    fade: 'boolean',
   },
 
   // Hook up DOM events
   events: {
     'click [data-hook="overlay"]': 'cancel',
+    'click [data-hook="backdrop"]': 'cancel',
     'click [data-hook="close"]': 'cancel',
     'focus': 'trapFocus',
     'keydown': 'escape',
@@ -94,6 +119,9 @@ module.exports = AmpView.extend({
     // Grab current focus and store away
     this.lastFocus = document.activeElement;
 
+    // Initialize fade out
+    this.fade = false;
+
     // Set aria-hidden on siblings
     var hidden = [];
     var childNodes = container.children;
@@ -117,6 +145,7 @@ module.exports = AmpView.extend({
     if (!this.rendered) {
       this.render();
     }
+
     this.el.style.display = 'none';
     container.appendChild(this.el);
 
@@ -127,6 +156,11 @@ module.exports = AmpView.extend({
     else {
       this.el.style.display = 'block';
     }
+    
+    // Fade modal in
+    setTimeout(function () {
+      this.fade = true;
+    }.bind(this));
   },
 
   //
@@ -164,7 +198,9 @@ module.exports = AmpView.extend({
       var closeBtnClicked = closeBtn === target || closeBtn.contains(target);
       var overlay = this.queryByHook('overlay');
       var overlayClicked = target === overlay;
-      var shouldClose = (closeBtnClicked || overlayClicked);
+      var backdrop = this.queryByHook('backdrop');
+      var backdropClicked = target === backdrop;
+      var shouldClose = (closeBtnClicked || overlayClicked || backdropClicked);
       if (!shouldClose) {
         return false;
       }
@@ -224,5 +260,16 @@ module.exports = AmpView.extend({
       var bd = this.query('.modal-content');
       bd.focus();
     }
+  },
+
+  remove: function () {
+
+    // Fade modal out
+    this.fade = false;
+
+    setTimeout(function () {
+      // Then remove
+      AmpView.prototype.remove.apply(this, arguments);
+    }.bind(this), 500)
   },
 });

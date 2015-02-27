@@ -1,7 +1,8 @@
 <div data-hook="overlay" class="modal fade" role="dialog" tabindex="-1" aria-hidden="true" aria-labelledby="amp-modal-title" aria-describedby="amp-modal-descr">
-  <div class="modal-dialog">
-    <div class="modal-content" tabindex="0" role="document">
-      <div class="modal-header">
+  <div data-hook="backdrop" class="modal-backdrop fade" style="height: 100%;"></div>
+  <div data-hook="dialog" class="modal-dialog" >
+    <div data-hook="content" class="modal-content" tabindex="0" role="document">
+      <div data-hook="header" class="modal-header">
         <button class="close" data-hook="close">
           <span aria-hidden="true">&times;</span>
           <span class="sr-only" data-hook="close-text"></span>
