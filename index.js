@@ -14,6 +14,7 @@
 
 var AmpView = require('ampersand-view');
 var dom = require('ampersand-dom');
+var bindings = require('ampersand-view/node_modules/ampersand-dom-bindings');
 
 var template = require('./template.html');
 var viewBinding = require('./lib/view-binding');
@@ -107,6 +108,11 @@ module.exports = AmpView.extend({
   // * **context**, the context to execute the `animate` function in.
   //
   openIn: function openModal(container, animate, context) {
+
+    // Re-bind bindings
+    this._parsedBindings = bindings(this.bindings, this);
+    this._initializeBindings();
+
     if (typeof container === 'string') {
       container = document.querySelector(container);
     }
