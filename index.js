@@ -89,8 +89,13 @@ module.exports = AmpView.extend({
 
   initialize: function () {
     // Need to listen to entire doc, not just in modal.
-    // TODO need to remove listener on remove
-    document.addEventListener('keydown', this.escape.bind(this));
+    this._escapeBind = this.escape.bind(this);
+    document.addEventListener('keydown', this._escapeBind);
+  },
+
+  remove: function () {
+    document.removeEventListener('keydown', this._escapeBind);
+    AmpView.prototype.remove.apply(this, arguments);
   },
 
   //
