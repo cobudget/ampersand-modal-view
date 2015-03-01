@@ -39,6 +39,8 @@ test("should open simple modal in body", function (t) {
     bodyView: bodyView,
     footerView: footerView,
   });
+  t.ok(!modal.el);
+
   modal.openIn('body');
 
   t.equal(modal.el, select('body > .modal'));
